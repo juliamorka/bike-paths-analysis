@@ -1,0 +1,95 @@
+{
+    "bicycle_related_amenities": {
+        "amenity": [
+            "bicycle_parking",
+            "bicycle_rental",
+            "bicycle_repair_station"
+        ]
+    },
+    "academia_related_amenities": {
+        "amenity": [
+            "college",
+            "library",
+            "university"
+        ]
+    },
+    "public_services_amenities": {
+        "amenity": [
+            "police",
+            "fire_station",
+            "hospital",
+            "post_office",
+            "bank"
+        ]
+    },
+    "leisure_and_entertainment_amenities": {
+        "amenity": [
+            "restaurant",
+            "cinema"
+        ]
+    },
+    "parkings": {
+        "amenity": [
+            "parking"
+        ]
+    },
+    "schools": {
+        "amenity": [
+            "school"
+        ]
+    },
+    "atms": {
+        "amenity": [
+            "atm"
+        ]
+    },
+    "fountains": {
+        "amenity": [
+            "fountain"
+        ]
+    },
+    "benches": {
+        "amenity": [
+            "bench"
+        ]
+    },
+    "camping_related_objects": {
+        "tourism": [
+            "camp_site",
+            "camp_pitch"
+        ]
+    },
+    "tourism_related_objects": {
+        "tourism": [
+            "attraction",
+            "hotel",
+            "hostel",
+            "museum"
+        ]
+    },
+    "picnic_sites": {
+        "tourism": [
+            "picnic_site"
+        ]
+    },
+    "viewpoints": {
+        "tourism": [
+            "viewpoint"
+        ]
+    },
+    "crossings": {
+        "highway": [
+            "crossing"
+        ]
+    },
+    "traffic_signals": {
+        "highway": [
+            "traffic_signals"
+        ]
+    },
+    "buildings": {
+        "building": [
+            "yes"
+        ]
+    }
+}

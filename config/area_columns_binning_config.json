@@ -1,0 +1,21 @@
+{
+    "green_space": {
+        "landuse": [
+            "forest",
+            "grass",
+            "meadow",
+            "recreation_ground"
+        ],
+        "leisure": "park"
+    },
+    "buildings": {
+        "building": [
+            "yes"
+        ]
+    },
+    "water_bodies": {
+        "natural": [
+            "water"
+        ]
+    }
+}
