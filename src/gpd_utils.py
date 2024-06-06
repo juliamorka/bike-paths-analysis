@@ -12,11 +12,3 @@ def clip_gdf(to_clip, mask):
 
 def clip_gdf_and_convert_crs(gdf, mask):
     return convert_crs(clip_gdf(gdf, mask))
-
-
-def get_sum_wrapper(func):
-    def inner(*args, **kwargs):
-        pd_like_object_to_sum = func(*args, **kwargs)
-        return pd_like_object_to_sum.sum()
-
-    return inner

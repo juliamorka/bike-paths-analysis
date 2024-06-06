@@ -2,8 +2,10 @@ import geopandas as gpd
 import h3
 import h3pandas
 import osmnx as ox
+from joblib import Parallel, delayed
 from src.constants import HEX_RESOLUTION, COLS_TO_DROP, DEFAULT_CRS
 from src.gpd_utils import *
+from src.helpers import get_sum_wrapper
 
 
 def get_gdf_from_query(query: str) -> gpd.GeoDataFrame:
@@ -24,10 +26,10 @@ def get_features_from_polygon(geometry, tags_dict):
 def calculate_tag_area(geometry, tags_dict):
     try:
         features = clip_gdf_and_convert_crs(
-            get_features_from_polygon(geometry, tags_dict)["geometry"]
+            get_features_from_polygon(geometry, tags_dict)["geometry"], geometry
         )
     except Exception as e:
-        print(e)  # TODO: logger
+        # print(e)  # TODO: logger
         return 0
     return features.area
 
@@ -36,10 +38,10 @@ def calculate_tag_area(geometry, tags_dict):
 def calculate_tag_len(geometry, tags_dict):
     try:
         features = clip_gdf_and_convert_crs(
-            get_features_from_polygon(geometry, tags_dict)["geometry"]
+            get_features_from_polygon(geometry, tags_dict)["geometry"], geometry
         )
     except Exception as e:
-        print(e)  # TODO: logger
+        # print(e)  # TODO: logger
         return 0
     return features.length
 
@@ -48,7 +50,7 @@ def calculate_tag_amt(geometry, tags_dict):
     try:
         features = get_features_from_polygon(geometry, tags_dict)
     except Exception as e:
-        print(e)  # TODO: logger
+        # print(e)  # TODO: logger
         return 0
     return features.shape[0]
 
