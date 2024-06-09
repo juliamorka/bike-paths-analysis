@@ -19,7 +19,7 @@ COLS_TO_DROP = [
     "display_name",
     "index",
 ]
-HEX_RESOLUTION = 7
+DEFAULT_HEX_RESOLUTION = 8
 OSMNX_QUERIES_DICT = {"Amsterdam": {"city": "Amsterdam"}, "Krakow": {"city": "Krakow"}}
 DATA_DIR = "data"
 CONFIG_DIR = "config"
@@ -38,4 +38,5 @@ CONFIG_FILE_PATHS = [
         "len_columns_binning_config.json",
     ]
 ]
-DEFAULT_CRS = 28992
+DEFAULT_CRS = 3035
+TARGET_FEATURE = "bike_paths_len"

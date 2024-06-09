@@ -1,5 +1,6 @@
-import numpy as np
 import json
+
+import numpy as np
 
 
 def get_sum_wrapper(func):
