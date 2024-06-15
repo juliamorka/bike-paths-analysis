@@ -105,7 +105,3 @@ class BikesDataPreprocessingPipeline(luigi.WrapperTask):
     def requires(self):
         yield FeatureEngineering("Amsterdam", DEFAULT_HEX_RESOLUTION)
         yield FeatureEngineering("Krakow", DEFAULT_HEX_RESOLUTION)
-
-
-# if __name__ == "pipelines.data_preprocessing":
-#     luigi.run()
