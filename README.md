@@ -20,9 +20,9 @@ please see the [Luigi documentation](https://luigi.readthedocs.io/en/stable/).
 .github/workflows
   └── formatting.yml             - GitHub Actions workflow for formatting
 config
-  ├── amt_columns_binning.json   - Configuration for binning columns related to 'amt'
-  ├── area_columns_binning.json  - Configuration for binning columns related to 'area'
-  └── len_columns_binning.json   - Configuration for binning columns related to 'len'
+  ├── amt_columns_binning.json   - Configuration for binning columns related to amount
+  ├── area_columns_binning.json  - Configuration for binning columns related to area
+  └── len_columns_binning.json   - Configuration for binning columns related to length
 data                             - Directory for data 
 models                           - Directory for machine learning models and output related to them
 pipelines
