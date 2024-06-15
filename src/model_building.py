@@ -210,7 +210,9 @@ class LinearRegressionModelBuilder(ModelBuilder):
         best_features = []
 
         for round_ in range(num_features):
-            scores_with_candidates = []
+            best_score = np.inf
+            best_candidate = ""
+            best_model = None
             for candidate in remaining_features:
                 features = best_features + [candidate]
                 model = self.model(**self.hyperparams)
@@ -218,17 +220,10 @@ class LinearRegressionModelBuilder(ModelBuilder):
                     model, predictors_data[features], target_data, scoring=scoring
                 )
                 score = np.mean(mse_scores)
-                scores_with_candidates.append((score, candidate))
-                if self.log_mlflow:
-                    with mlflow.start_run():
-                        mlflow.log_param("predictors", features)
-                        mlflow.log_metrics({"mse": score})
-                        mlflow.sklearn.log_model(
-                            sk_model=model,
-                            artifact_path="sklearn-model",
-                            registered_model_name="sk-learn-linear-reg-model",
-                        )
-            _, best_candidate = sorted(scores_with_candidates)[0]
+                if score < best_score:
+                    best_score = score
+                    best_candidate = candidate
+                    best_model = model
             best_features.append(best_candidate)
             remaining_features = list(
                 set(remaining_features).difference(
@@ -239,6 +234,15 @@ class LinearRegressionModelBuilder(ModelBuilder):
                     )
                 )
             )
+            if self.log_mlflow:
+                with mlflow.start_run():
+                    mlflow.log_param("predictors", best_features)
+                    mlflow.log_metrics({"mse": best_score})
+                    mlflow.sklearn.log_model(
+                        sk_model=best_model,
+                        artifact_path="sklearn-model",
+                        registered_model_name=f"sk-learn-linear-reg-model-ffs",
+                    )
             if not remaining_features:
                 print("FFS finished at round", round_)
                 self.predictors = best_features
