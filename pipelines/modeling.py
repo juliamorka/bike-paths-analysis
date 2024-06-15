@@ -21,12 +21,12 @@ class TrainAndTestLinearRegressionModel(luigi.Task):
 
     def requires(self):
         return {
-            self.train_city: FeatureEngineering(self.train_city, DEFAULT_HEX_RESOLUTION),
+            self.train_city: FeatureEngineering(
+                self.train_city, DEFAULT_HEX_RESOLUTION
+            ),
             self.test_city: FeatureEngineering(self.test_city, DEFAULT_HEX_RESOLUTION),
-
-
-
         }
+
     def output(self):
         return luigi.LocalTarget(
             os.path.join(
