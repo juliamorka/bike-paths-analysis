@@ -41,7 +41,7 @@ src
 
 ### External project requirements
 
-Before running the project, download the data from [Data Repo] https://github.com/juliamorka/bike-paths-data 
+Before running the project, download the data from [Data Repo] (https://github.com/juliamorka/bike-paths-data) 
 and store it under the `data/inputs` directory. It is recommended to copy the files manually, as cloning repository
 within another one might cause unwanted issues.
 
