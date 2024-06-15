@@ -3,9 +3,15 @@ import os
 import geopandas as gpd
 import luigi
 
-from src.constants import (CONFIG_FILE_PATHS, DEFAULT_HEX_RESOLUTION,
-                           INPUT_DATA_DIR, INTERIM_DATA_DIR,
-                           OSMNX_QUERIES_DICT, OUTPUT_DATA_DIR, TARGET_FEATURE)
+from src.constants import (
+    CONFIG_FILE_PATHS,
+    DEFAULT_HEX_RESOLUTION,
+    INPUT_DATA_DIR,
+    INTERIM_DATA_DIR,
+    OSMNX_QUERIES_DICT,
+    OUTPUT_DATA_DIR,
+    TARGET_FEATURE,
+)
 from src.helpers import get_json_configs
 from src.osmnx_utils import apply_calculations, get_h3_hexagons_gdf
 from src.transformations import get_predictors, get_transformed_predictors
