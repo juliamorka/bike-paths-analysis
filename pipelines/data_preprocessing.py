@@ -3,6 +3,7 @@ import os
 import geopandas as gpd
 import luigi
 
+from pipelines.common import CreateDirectory
 from src.constants import (
     CONFIG_FILE_PATHS,
     DEFAULT_HEX_RESOLUTION,
@@ -15,13 +16,6 @@ from src.constants import (
 from src.helpers import get_json_configs
 from src.osmnx_utils import apply_calculations, get_h3_hexagons_gdf
 from src.transformations import get_predictors, get_transformed_predictors
-
-
-class CreateDirectory(luigi.ExternalTask):
-    directory = luigi.PathParameter()
-
-    def output(self):
-        return luigi.LocalTarget(self.directory)
 
 
 class DownloadInput(luigi.ExternalTask):

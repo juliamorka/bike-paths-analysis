@@ -3,6 +3,7 @@ import os
 import geopandas as gpd
 import luigi
 
+from pipelines.common import CreateDirectory
 from pipelines.data_preprocessing import FeatureEngineering
 from src.constants import (
     DEFAULT_HEX_RESOLUTION,
@@ -21,6 +22,7 @@ class TrainAndTestLinearRegressionModel(luigi.Task):
 
     def requires(self):
         return {
+            "output_dir": CreateDirectory(MODEL_OUTPUT_DIR),
             self.train_city: FeatureEngineering(
                 self.train_city, DEFAULT_HEX_RESOLUTION
             ),
@@ -30,7 +32,7 @@ class TrainAndTestLinearRegressionModel(luigi.Task):
     def output(self):
         return luigi.LocalTarget(
             os.path.join(
-                MODEL_OUTPUT_DIR,
+                self.input()["output_dir"].path,
                 "linear_regression",
                 f"train_{self.train_city}_test_{self.test_city}_h{DEFAULT_HEX_RESOLUTION}"
                 f"{'_only_pos' if self.force_positive else ''}",
