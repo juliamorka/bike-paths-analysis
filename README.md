@@ -15,6 +15,30 @@ it will trigger the data preprocessing pipeline automatically if it has not been
 The described pipelines rely heavily on the Luigi package and its workflow. For further reference and detailed information, 
 please see the [Luigi documentation](https://luigi.readthedocs.io/en/stable/).
 
+### Project structure 
+```
+.github/workflows
+  └── formatting.yml             - GitHub Actions workflow for formatting
+config
+  ├── amt_columns_binning.json   - Configuration for binning columns related to 'amt'
+  ├── area_columns_binning.json  - Configuration for binning columns related to 'area'
+  └── len_columns_binning.json   - Configuration for binning columns related to 'len'
+data                             - Directory for data 
+models                           - Directory for machine learning models and output related to them
+pipelines
+  ├── common.py                  - Common utilities and functions used across Luigi pipelines
+  ├── data_preprocessing.py      - Luigi pipeline for data preprocessing
+  └── modeling.py                - Luigi pipeline for model training and evaluation
+src
+  ├── constants.py               - Constants definition
+  ├── gpd_utils.py               - Utility functions related to GeoPandas
+  ├── helpers.py                 - Helper functions for general use
+  ├── model_building.py          - Classes for building machine learning models
+  ├── osmnx_utils.py             - Utility functions related to OSMnx (OpenStreetMap)
+  └── transformations.py         - Functions for data transformations
+
+```
+
 ### Environment setup
 
 To create the environment, when running the project for the first time, run below command from the main project directory:
