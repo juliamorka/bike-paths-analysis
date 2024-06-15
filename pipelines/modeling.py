@@ -4,12 +4,9 @@ import geopandas as gpd
 import luigi
 
 from pipelines.data_preprocessing import FeatureEngineering
-from src.constants import (
-    DEFAULT_HEX_RESOLUTION,
-    LINEAR_REGRESSION_FEATURES_NUM,
-    MODEL_OUTPUT_DIR,
-    TARGET_FEATURE,
-)
+from src.constants import (DEFAULT_HEX_RESOLUTION,
+                           LINEAR_REGRESSION_FEATURES_NUM, MODEL_OUTPUT_DIR,
+                           TARGET_FEATURE)
 from src.model_building import LinearRegressionModelBuilder
 from src.transformations import get_predictors
 
