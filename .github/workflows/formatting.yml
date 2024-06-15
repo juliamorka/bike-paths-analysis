@@ -1,4 +1,4 @@
-name: Lint
+name: Formatting
 
 on: [push, pull_request]
 
@@ -8,3 +8,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: psf/black@stable
+      - uses: isort/isort-action@v1
