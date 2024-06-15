@@ -10,4 +10,4 @@ jobs:
       - uses: psf/black@stable
       - uses: isort/isort-action@v1
         with:
-          profile: black
+          configuration: ["--profile", "black"]
