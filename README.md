@@ -151,3 +151,32 @@ The custom configuration allows the user to:
 - choose if the negative predictions should be replaced with 0 (defaults to False)
 - choose if forward feature selection should be logged with MLFlow 
 - specify the name for MLFlow experiment used in the pipeline run
+
+### :bicyclist: Running examples
+1. Train model on Amsterdam, apply on Kraków, use 4 features, set hexagons resolution to default number, disallow parallel processing, use Luigi's central scheduler, no MLFlow logging:
+```bash
+# Terminal 1
+luigid
+```
+```bash
+# Terminal 2
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --num-features 4
+```
+2. Train model on Amsterdam, apply on Kraków, use default number of features, set hexagons resolution to 7, allow parallel processing, use Luigi's local scheduler, no MLFlow logging:
+```bash
+# Terminal 1
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --hex-resolution 7 --local-scheduler
+```
+3. Train model on Kraków, apply on Amsterdam, use default number of features and default hexagons resolution, disallow parallel processing, use Luigi's central scheduler, turn on MLFlow logging:
+```bash
+# Terminal 1
+luigid
+```
+```bash
+# Terminal 2
+mlflow server --host 127.0.0.1 --port 8080
+```
+```bash
+# Terminal 3
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --train-city Krakow --test-city Amsterdam --log-mlflow
+```
