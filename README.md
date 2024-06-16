@@ -180,3 +180,14 @@ mlflow server --host 127.0.0.1 --port 8080
 # Terminal 3
 python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --train-city Krakow --test-city Amsterdam --log-mlflow
 ```
+### 🚴 Results
+After running the data preprocessing pipeline, the features aggregated on H3 hexagonal level will be available under `data/output`.
+
+After running the data modeling pipeline, the `models/linear-regression` will include a folder named according to the pipeline's run configuration. It will consist of:
+* correlation heatmap of all predictors for train city
+* corrleation heatmaps of predictors chosen in FFS process for both train and test city
+* actual vs predicted plots for both cities
+* .parquet files with predictions for both cities (this can be joined with features used for modeling and later explored by data scientist)
+* .csv file with metrics for both cities (this format was chosen for easy evaluation)
+* .pkl with a final model
+This is an additional layer of results for the final model, while logs available in MLFlow focus more on FFS (experimental process searching for the best model).
