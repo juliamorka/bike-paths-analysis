@@ -87,7 +87,7 @@ luigid
 python -m luigi --module pipelines.data_preprocessing BikesDataPreprocessingPipeline --workers 2
 ```
 
-3. **Monitor the Dependency Graph**: The central scheduler starts on port `8082` of `localhost`. 
+3. **Monitor the Dependency Graph while the pipeline runs**: The central scheduler starts on port `8082` of `localhost`. 
 You can monitor the dependency graph by navigating to the following URL in your web browser:
 
 ```

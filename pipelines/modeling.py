@@ -86,10 +86,7 @@ class BikePathsLengthModelingPipeline(luigi.WrapperTask):
     num_features = luigi.IntParameter(default=LINEAR_REGRESSION_FEATURES_NUM)
     force_positive = luigi.BoolParameter(default=False)
     log_mlflow = luigi.BoolParameter(default=False)
-    mlflow_experiment = luigi.Parameter(
-        default=f"train_{train_city}_test_{test_city}"
-        f"_h{hex_resolution}_n{num_features}"
-    )
+    mlflow_experiment = luigi.Parameter(default="")
 
     def requires(self):
         yield TrainAndTestLinearRegressionModel(
@@ -99,5 +96,7 @@ class BikePathsLengthModelingPipeline(luigi.WrapperTask):
             self.num_features,
             self.force_positive,
             self.log_mlflow,
-            self.mlflow_experiment,
+            self.mlflow_experiment
+            or f"train_{self.train_city}_test_{self.test_city}"
+            f"_h{self.hex_resolution}_n{self.num_features}",
         )
