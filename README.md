@@ -1,7 +1,7 @@
-# bike-paths-analysis
+# OSM Bike Paths ML Pipeline project
 A data science project aimed at predicting bike path lengths within H3 hexagons in Amsterdam.
 
-### General project overview
+### :bicyclist: General project overview
 
 This project consists of two parts (pipelines) - data preprocessing and modeling. 
 
@@ -15,7 +15,7 @@ it will trigger the data preprocessing pipeline automatically if it has not been
 The described pipelines rely heavily on the Luigi package and its workflow. For further reference and detailed information, 
 please see the [Luigi documentation](https://luigi.readthedocs.io/en/stable/).
 
-### Project structure 
+### :bicyclist: Project structure 
 ```
 .github/workflows
   └── formatting.yml             - GitHub Actions workflow for formatting
@@ -39,13 +39,13 @@ src
 
 ```
 
-### External project requirements
+### :bicyclist: External project requirements
 
 Before running the project, download the data from [Data Repo](https://github.com/juliamorka/bike-paths-data) 
 and store it under the `data/inputs` directory. It is recommended to copy the files manually, as cloning repository
 within another one might cause unwanted issues.
 
-### Environment setup
+### :bicyclist: Environment setup
 
 To create the environment, when running the project for the first time, run below command from the main project directory:
 ```bash
@@ -60,7 +60,7 @@ To activate the environment, run:
 conda activate bpa-env
 ```
 
-### Running data preprocessing pipeline with Luigi's local scheduler and default configuration (simple mode) 
+### :bicyclist: Running data preprocessing pipeline with Luigi's local scheduler and default configuration (simple mode) 
 
 Execute the following command in the terminal window:
 
@@ -71,7 +71,7 @@ To achieve faster computation times, it is recommended to run the pipeline with 
 allowing for parallel processing of 2 input files. Generally, the number of workers should match the number of input 
 files being processed.
 
-### Running data preprocessing pipeline with Luigi's central scheduler and default configuration
+### :bicyclist: Running data preprocessing pipeline with Luigi's central scheduler and default configuration
 
 To execute the data preprocessing pipeline using a central scheduler and visualize the dependency graph, follow these steps:
 
@@ -94,14 +94,14 @@ You can monitor the dependency graph by navigating to the following URL in your 
 http://localhost:8082
 ```
 
-### Running data preprocessing pipeline with custom configuration
+### :bicyclist: Running data preprocessing pipeline with custom configuration
 ```bash
 python -m luigi --module pipelines.data_preprocessing BikesDataPreprocessingPipeline --workers {number_of_workers} --hex-resolution {resolution} [--local-scheduler]
 ```
 
 Default hexagon resolution is set up to 8, it can be adjusted using --hex-resolution flag as shown in the above command.
 
-### Running modeling pipeline with default configuration (simple mode)
+### :bicyclist: Running modeling pipeline with default configuration (simple mode)
 
 Execute the following command in the terminal window:
 
@@ -111,7 +111,7 @@ python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --wo
 Recommended number of workers is the same as in the data preprocessing pipeline section (2) if data preprocessing
 has not been run before, and the input data already exists, the number of workers should be 1.
 
-### Running Modeling Pipeline with MLFlow
+### :bicyclist: Running Modeling Pipeline with MLFlow
 
 To execute the modeling pipeline using MLFlow and monitor the experiments, follow these steps:
 
@@ -134,7 +134,7 @@ You can monitor your MLFlow experiments by navigating to the following URL in yo
 http://127.0.0.1:8080
 ```
 
-### Running data preprocessing pipeline with custom configuration
+### :bicyclist: Running data preprocessing pipeline with custom configuration
 ```bash
 python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --workers {number_of_workers} 
 [--train-city {city_name}] [--test-city {city_name}]
