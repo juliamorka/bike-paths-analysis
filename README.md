@@ -1,7 +1,7 @@
-# bike-paths-analysis
+# OSM Bike Paths ML Pipeline project
 A data science project aimed at predicting bike path lengths within H3 hexagons in Amsterdam.
 
-### General project overview
+### :bicyclist: General project overview
 
 This project consists of two parts (pipelines) - data preprocessing and modeling. 
 
@@ -15,7 +15,7 @@ it will trigger the data preprocessing pipeline automatically if it has not been
 The described pipelines rely heavily on the Luigi package and its workflow. For further reference and detailed information, 
 please see the [Luigi documentation](https://luigi.readthedocs.io/en/stable/).
 
-### Project structure 
+### :bicyclist: Project structure 
 ```
 .github/workflows
   └── formatting.yml             - GitHub Actions workflow for formatting
@@ -39,13 +39,13 @@ src
 
 ```
 
-### External project requirements
+### :bicyclist: External project requirements
 
 Before running the project, download the data from [Data Repo](https://github.com/juliamorka/bike-paths-data) 
 and store it under the `data/inputs` directory. It is recommended to copy the files manually, as cloning repository
 within another one might cause unwanted issues.
 
-### Environment setup
+### :bicyclist: Environment setup
 
 To create the environment, when running the project for the first time, run below command from the main project directory:
 ```bash
@@ -59,8 +59,10 @@ To activate the environment, run:
 ```bash
 conda activate bpa-env
 ```
+### :bicyclist: Instructions syntax
+Detailed running instructions for both pipelines are described below. Their syntax uses square brackets ('[' and ']') when the flag is optional. 
 
-### Running data preprocessing pipeline with Luigi's local scheduler and default configuration (simple mode) 
+### :bicyclist: Running data preprocessing pipeline with Luigi's local scheduler and default configuration (simple mode) 
 
 Execute the following command in the terminal window:
 
@@ -71,7 +73,7 @@ To achieve faster computation times, it is recommended to run the pipeline with 
 allowing for parallel processing of 2 input files. Generally, the number of workers should match the number of input 
 files being processed.
 
-### Running data preprocessing pipeline with Luigi's central scheduler and default configuration
+### :bicyclist: Running data preprocessing pipeline with Luigi's central scheduler and default configuration
 
 To execute the data preprocessing pipeline using a central scheduler and visualize the dependency graph, follow these steps:
 
@@ -94,24 +96,25 @@ You can monitor the dependency graph by navigating to the following URL in your 
 http://localhost:8082
 ```
 
-### Running data preprocessing pipeline with custom configuration
+### :bicyclist: Running data preprocessing pipeline with custom configuration
 ```bash
-python -m luigi --module pipelines.data_preprocessing BikesDataPreprocessingPipeline --workers {number_of_workers} --hex-resolution {resolution} [--local-scheduler]
+python -m luigi --module pipelines.data_preprocessing BikesDataPreprocessingPipeline --hex-resolution {resolution} [--workers {number_of_workers}] [--local-scheduler]
 ```
 
 Default hexagon resolution is set up to 8, it can be adjusted using --hex-resolution flag as shown in the above command.
 
-### Running modeling pipeline with default configuration (simple mode)
+### :bicyclist: Running modeling pipeline with default configuration (simple mode)
 
 Execute the following command in the terminal window:
 
 ```bash
-python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --workers {number_of_workers} --local-scheduler
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline [--workers {number_of_workers}] [--local-scheduler]
 ```
 Recommended number of workers is the same as in the data preprocessing pipeline section (2) if data preprocessing
-has not been run before, and the input data already exists, the number of workers should be 1.
+has not been run before, and the input data already exists, the number of workers should be 1. If central scheduler is used,
+luigid has to be run in a separate terminal window, as described in the data preprocessing pipeline section.
 
-### Running Modeling Pipeline with MLFlow
+### :bicyclist: Running Modeling Pipeline with MLFlow
 
 To execute the modeling pipeline using MLFlow and monitor the experiments, follow these steps:
 
@@ -124,8 +127,9 @@ mlflow server --host 127.0.0.1 --port 8080
 2. **Run the Modeling Pipeline**: Open a second terminal window and execute the following command:
 
 ```bash
-python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --workers {number_of_workers} --log-mlflow --mlflow-experiment {experiment_name} [--local-scheduler]
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --log-mlflow [--mlflow-experiment {experiment_name}] [--workers {number_of_workers}] [--local-scheduler]
 ```
+You can choose your own MLFlow experiment name or stick with the default one.
 
 3. **Monitor MLFlow Experiments**: The MLFlow server starts on port `8080` of `127.0.0.1`. 
 You can monitor your MLFlow experiments by navigating to the following URL in your web browser:
@@ -134,13 +138,9 @@ You can monitor your MLFlow experiments by navigating to the following URL in yo
 http://127.0.0.1:8080
 ```
 
-### Running data preprocessing pipeline with custom configuration
+### :bicyclist: Running data preprocessing pipeline with custom configuration
 ```bash
-python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --workers {number_of_workers} 
-[--train-city {city_name}] [--test-city {city_name}]
-[--hex-resolution {resolution}] [--num-features {n}] [--force-positive] 
-[--log-mlflow] [--mlflow-experiment {experiment_name}] 
-[--local-scheduler]
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline [--workers {number_of_workers}] [--train-city {city_name}] [--test-city {city_name}] [--hex-resolution {resolution}] [--num-features {n}] [--force-positive] [--log-mlflow] [--mlflow-experiment {experiment_name}] [--local-scheduler]
 ```
 
 The custom configuration allows the user to:
@@ -151,3 +151,32 @@ The custom configuration allows the user to:
 - choose if the negative predictions should be replaced with 0 (defaults to False)
 - choose if forward feature selection should be logged with MLFlow 
 - specify the name for MLFlow experiment used in the pipeline run
+
+### :bicyclist: Running examples
+1. Train model on Amsterdam, apply on Kraków, use 4 features, set hexagons resolution to default number, disallow parallel processing, use Luigi's central scheduler, no MLFlow logging:
+```bash
+# Terminal 1
+luigid
+```
+```bash
+# Terminal 2
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --num-features 4
+```
+2. Train model on Amsterdam, apply on Kraków, use default number of features, set hexagons resolution to 7, allow parallel processing, use Luigi's local scheduler, no MLFlow logging:
+```bash
+# Terminal 1
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --hex-resolution 7 --local-scheduler
+```
+3. Train model on Kraków, apply on Amsterdam, use default number of features and default hexagons resolution, disallow parallel processing, use Luigi's central scheduler, turn on MLFlow logging:
+```bash
+# Terminal 1
+luigid
+```
+```bash
+# Terminal 2
+mlflow server --host 127.0.0.1 --port 8080
+```
+```bash
+# Terminal 3
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --train-city Krakow --test-city Amsterdam --log-mlflow
+```
