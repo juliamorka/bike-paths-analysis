@@ -96,6 +96,8 @@ class FeatureEngineering(luigi.Task):
 
 
 class BikesDataPreprocessingPipeline(luigi.WrapperTask):
+    hex_resolution = luigi.IntParameter(default=DEFAULT_HEX_RESOLUTION)
+
     def requires(self):
-        yield FeatureEngineering("Amsterdam", DEFAULT_HEX_RESOLUTION)
-        yield FeatureEngineering("Krakow", DEFAULT_HEX_RESOLUTION)
+        yield FeatureEngineering("Amsterdam", self.hex_resolution)
+        yield FeatureEngineering("Krakow", self.hex_resolution)

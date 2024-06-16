@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import mlflow
 import numpy as np
 import pandas as pd
+import seaborn as sns
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import (
     mean_absolute_error,
@@ -138,9 +139,17 @@ class ModelBuilder(ABC):
 
     def predict(self):
         """
-        Generate predictions using the already built model on the test set.
+        Generate predictions on the test set using the already built model
+        and save them to .parquet.
         """
         self.predictions = self.model_build.predict(self.test_set[self.predictors])
+        pd.DataFrame(self.predictions).to_parquet(
+            (
+                os.path.join(
+                    self.save_dir, f"predicted_values_{self.dataset_name}.parquet"
+                )
+            )
+        )
 
     def calculate_metrics_values(self):
         """
@@ -275,8 +284,31 @@ class LinearRegressionModelBuilder(ModelBuilder):
             os.path.join(
                 self.save_dir,
                 f"actual_vs_pred_{self.target_feature}_{self.dataset_name}_"
-                f"{'only_pos' if self.force_positive_predictions else ''}_"
+                f"{'only_pos' if self.forced_positive_predictions else ''}_"
                 f"{self.timestamp}.png",
             )
+        )
+        plt.close(fig)
+
+    def plot_predictors_correlation(self):
+        """
+        Create correlation heatmap plot of the predictors and save it to file.
+        """
+        to_plot = self.data[self.predictors]
+        features_hash = hash(tuple(self.predictors))
+        num_feat = len(self.predictors)
+        num_feat_large = num_feat > 15
+        fig, ax = plt.subplots(1, 1, figsize=(30, 25) if num_feat_large else (15, 10))
+        sns.heatmap(to_plot.corr(), annot=not num_feat_large, vmin=-1, vmax=1, ax=ax)
+        ax.set_title(
+            "Predictors correlation heatmap", fontsize=30 if num_feat_large else 20
+        )
+        fig.savefig(
+            os.path.join(
+                self.save_dir,
+                f"corr_heatmap_{self.dataset_name}_num_features_{num_feat}"
+                f"_features_hash_{features_hash}_{self.timestamp}.png",
+            ),
+            bbox_inches="tight",
         )
         plt.close(fig)
