@@ -96,7 +96,7 @@ http://localhost:8082
 
 ### :bicyclist: Running data preprocessing pipeline with custom configuration
 ```bash
-python -m luigi --module pipelines.data_preprocessing BikesDataPreprocessingPipeline --workers {number_of_workers} --hex-resolution {resolution} [--local-scheduler]
+python -m luigi --module pipelines.data_preprocessing BikesDataPreprocessingPipeline --hex-resolution {resolution} [--workers {number_of_workers}] [--local-scheduler]
 ```
 
 Default hexagon resolution is set up to 8, it can be adjusted using --hex-resolution flag as shown in the above command.
@@ -106,10 +106,11 @@ Default hexagon resolution is set up to 8, it can be adjusted using --hex-resolu
 Execute the following command in the terminal window:
 
 ```bash
-python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --workers {number_of_workers} --local-scheduler
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline [--workers {number_of_workers}] [--local-scheduler]
 ```
 Recommended number of workers is the same as in the data preprocessing pipeline section (2) if data preprocessing
-has not been run before, and the input data already exists, the number of workers should be 1.
+has not been run before, and the input data already exists, the number of workers should be 1. If central scheduler is used,
+luigid has to be run in a separate terminal window, as described in the data preprocessing pipeline section.
 
 ### :bicyclist: Running Modeling Pipeline with MLFlow
 
@@ -124,8 +125,9 @@ mlflow server --host 127.0.0.1 --port 8080
 2. **Run the Modeling Pipeline**: Open a second terminal window and execute the following command:
 
 ```bash
-python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --workers {number_of_workers} --log-mlflow --mlflow-experiment {experiment_name} [--local-scheduler]
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --log-mlflow [--mlflow-experiment {experiment_name}] [--workers {number_of_workers}] [--local-scheduler]
 ```
+You can choose your own MLFlow experiment name or stick with the default one.
 
 3. **Monitor MLFlow Experiments**: The MLFlow server starts on port `8080` of `127.0.0.1`. 
 You can monitor your MLFlow experiments by navigating to the following URL in your web browser:
@@ -136,11 +138,7 @@ http://127.0.0.1:8080
 
 ### :bicyclist: Running data preprocessing pipeline with custom configuration
 ```bash
-python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --workers {number_of_workers} 
-[--train-city {city_name}] [--test-city {city_name}]
-[--hex-resolution {resolution}] [--num-features {n}] [--force-positive] 
-[--log-mlflow] [--mlflow-experiment {experiment_name}] 
-[--local-scheduler]
+python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline [--workers {number_of_workers}] [--train-city {city_name}] [--test-city {city_name}] [--hex-resolution {resolution}] [--num-features {n}] [--force-positive] [--log-mlflow] [--mlflow-experiment {experiment_name}] [--local-scheduler]
 ```
 
 The custom configuration allows the user to:
