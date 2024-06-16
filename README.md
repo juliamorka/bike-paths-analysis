@@ -59,7 +59,7 @@ To activate the environment, run:
 ```bash
 conda activate bpa-env
 ```
-### :bicyclist: General running instructions
+### :bicyclist: Instructions syntax
 Detailed running instructions for both pipelines are described below. Their syntax uses square brackets ('[' and ']') when the flag is optional. 
 
 ### :bicyclist: Running data preprocessing pipeline with Luigi's local scheduler and default configuration (simple mode) 
