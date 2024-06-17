@@ -160,12 +160,12 @@ luigid
 ```
 ```bash
 # Terminal 2
-python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --num-features 4
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --num-features 4
 ```
 2. Train model on Amsterdam, apply on Kraków, use default number of features, set hexagons resolution to 7, allow parallel processing, use Luigi's local scheduler, no MLFlow logging:
 ```bash
 # Terminal 1
-python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --hex-resolution 7 --local-scheduler
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --hex-resolution 7 --local-scheduler
 ```
 3. Train model on Kraków, apply on Amsterdam, use default number of features and default hexagons resolution, disallow parallel processing, use Luigi's central scheduler, turn on MLFlow logging:
 ```bash
@@ -178,7 +178,7 @@ mlflow server --host 127.0.0.1 --port 8080
 ```
 ```bash
 # Terminal 3
-python -m luigi --module pipelines.data_preprocessing BikePathsLengthModelingPipeline --train-city Krakow --test-city Amsterdam --log-mlflow
+python -m luigi --module pipelines.modeling BikePathsLengthModelingPipeline --train-city Krakow --test-city Amsterdam --log-mlflow
 ```
 ### 🚴 Results
 After running the data preprocessing pipeline, the features aggregated on H3 hexagonal level will be available under `data/output`.
