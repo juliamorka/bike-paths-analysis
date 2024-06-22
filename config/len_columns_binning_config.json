@@ -1,0 +1,27 @@
+{
+    "primary_roads": {
+        "highway": [
+            "primary"
+        ]
+    },
+    "secondary_roads": {
+        "highway": [
+            "secondary"
+        ]
+    },
+    "residential_roads": {
+        "highway": [
+            "residential"
+        ]
+    },
+    "unclassified_roads": {
+        "highway": [
+            "unclassified"
+        ]
+    },
+    "pedestrian_roads": {
+        "highway": [
+            "pedestrian"
+        ]
+    }
+}
